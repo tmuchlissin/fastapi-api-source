@@ -4,8 +4,8 @@ router = APIRouter(tags=["System"])
 
 @router.get("/")
 async def root():
-    return {"message": "Welcome to the FastAPI API Source! ✅"}
+    return {"message": "Welcome to FastAPI home! ✅"}
 
-@router.get("/health-check")
-async def health_check():
-    return {"status": "healthy"}
+@router.get("/health")
+async def health():
+    return {"message": "Health check success ✅"}
