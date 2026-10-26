@@ -1,5 +1,6 @@
 import json
 from fastapi import APIRouter, File, Form, UploadFile
+from typing import Annotated
 from app.schemas.user import User
 from . import constants
 
@@ -43,26 +44,31 @@ async def create_user_json(user: User):
 # POST API to add a new user using form data (support both multipart/form-data and application/x-www-form-urlencoded)
 @router.post('/body/form/add-user')
 async def create_user_form(
-    name: str = Form(), 
-    age: int = Form(), 
-    email: str = Form()
-    ):
-    """Create and save a user from **text form fields**.
-    
-    - **Input:** Send ``name``, ``age``, and ``email`` as URL-encoded or multipart form fields.
-    - **Validation:** FastAPI requires all three fields and parses ``age`` as an integer.
-    - **Action:** Append the user to the JSON data file; this route does not accept a file.
-    - **Response:** Return the complete, updated user list.
-    
+    name: Annotated[str, Form()],
+    age: Annotated[int, Form()],
+    email: Annotated[str, Form()],
+):
+    """Create and save a user from **text-based form fields**.
+
+    - **Input:** Accept ``name``, ``age``, and ``email`` using either
+      ``application/x-www-form-urlencoded`` or ``multipart/form-data``.
+    - **Validation:** All fields are required. FastAPI validates their declared
+      types and converts ``age`` to an integer before running this function.
+    - **Action:** Create a user record and append it to the JSON data file.
+    - **Response:** Return a success message and the complete updated user list.
+
     **Use case:**
-    
-    - Save a registration submitted by a text-only form.
-    
+
+    - Save data submitted by a traditional HTML form, registration page, or
+      another client that sends simple text fields instead of a JSON object.
+
     **When to choose:**
-    
-    - Choose this route for form submissions that must be **stored**.
-    - Choose the JSON route for a JSON body or the multipart upload route when a file is included.
-    - The URL-encoded example only echoes values and does not store them.
+
+    - Choose this endpoint for **text-only form fields** that must be saved.
+    - Prefer the JSON endpoint for structured or nested API payloads.
+    - Prefer the multipart upload endpoint when the request includes a file.
+    - Unlike the URL-encoded demonstration endpoint, this endpoint persists
+      the submitted user instead of only echoing the values.
     """
     if constants.FILE_PATH.exists():
         with open(constants.FILE_PATH, 'r') as file:

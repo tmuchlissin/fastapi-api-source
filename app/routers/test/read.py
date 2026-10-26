@@ -1,6 +1,7 @@
 import json
 from fastapi import APIRouter, HTTPException, Path as PathParameter, Query
 from . import constants
+from app.schemas.user import User
 
 router = APIRouter()
 
