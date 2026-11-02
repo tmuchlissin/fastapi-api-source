@@ -1,6 +1,5 @@
 from functools import lru_cache
 from pathlib import Path
-
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -15,6 +14,7 @@ class Settings(BaseSettings):
     )
     
     TEST_BEARER_TOKEN: str = Field(min_length=1, repr=False)
+    DATABASE_URL: str = Field(min_length=1, repr=False)
 
 
 

@@ -29,7 +29,8 @@ def verify_bearer_token(
 
     return credentials.credentials
 
-# GET API to check a bearer token sent in the Authorization header
+# --- GET API to check a bearer token sent in the Authorization header ---
+
 @router.get('/auth/bearer')
 async def authenticate_with_bearer_token(
     verified_token: str = Depends(verify_bearer_token),
