@@ -16,6 +16,16 @@ class Settings(BaseSettings):
     TEST_BEARER_TOKEN: str = Field(min_length=1, repr=False)
     DATABASE_URL: str = Field(min_length=1, repr=False)
 
+    API_KEY: str = Field(default="cure-secret-master-key", repr=False)
+    EMBEDDING_MODEL_ID: str = Field(default="BAAI/bge-m3")
+    EMBEDDING_MODEL_PATH: str = Field(default="models/bge-m3")
+    EMBEDDING_DEVICE: str = Field(default="cuda")
+
+    @property
+    def resolved_model_path(self) -> Path:
+        path = Path(self.EMBEDDING_MODEL_PATH)
+        return path if path.is_absolute() else PROJECT_ROOT / path
+
 
 
 @lru_cache

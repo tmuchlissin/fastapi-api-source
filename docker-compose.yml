@@ -1,0 +1,22 @@
+services:
+  embedding-api:
+    build: .
+    container_name: fastapi-embedding-gpu
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - EMBEDDING_MODEL_PATH=/app/models/bge-m3
+      - EMBEDDING_DEVICE=cuda
+    volumes:
+      - ./models:/app/models:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+

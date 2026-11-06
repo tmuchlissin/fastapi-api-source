@@ -1,14 +1,27 @@
 [project]
 name = "fastapi-api-source"
 version = "0.1.0"
-description = "Add your description here"
+description = "FastAPI Local GPU Embedding Service"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.20.1",
     "fastapi[standard]>=0.148.0",
+    "huggingface-hub>=0.26.0",
     "psycopg>=3.3.6",
     "psycopg2-binary>=2.9.13",
     "pydantic-settings>=2.16.0",
+    "pypdf>=6.21.4",
+    "sentence-transformers>=3.3.0",
     "sqlalchemy>=2.1.6",
+    "torch>=2.5.0",
 ]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+
